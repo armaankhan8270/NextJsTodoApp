@@ -6,17 +6,21 @@ import { collection, addDoc } from "firebase/firestore";
 import { useEffect } from "react";
 import { db } from "./firebase--config";
 import { ref } from "firebase/storage";
+import { GlobalUserContetx } from "../Context/UserContext";
 const SiginUp = () => {
-  const [email, setemail] = useState("");
-  const [password, setpassword] = useState("");
-  const [File, setFile] = useState();
-  const data = { email, password };
+  const [message, setmessage] = useState("");
+  const [username, setusername] = useState("");
+
+  const data = { username, message };
 
   const Post = async () => {
-    axios.post("http://localhost:3000/api/task", data).then((e) => {
-      console.log(e);
-      alert(e);
-    });
+    axios
+      .post("http://localhost:3000/api/task/Help", data)
+      .then((e) => {
+        console.log(e);
+        alert(e.data.test.email);
+      })
+      .catch((e) => alert(e));
   };
 
   return (
@@ -118,17 +122,18 @@ const SiginUp = () => {
             <div class="-mx-2 md:items-center md:flex">
               <div class="flex-1 px-2 mt-4 md:mt-0">
                 <label class="block mb-2 text-sm text-gray-600 dark:text-gray-200">
-                  Email address
+                  username
                 </label>
                 <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setemail(e.target.value)}
+                  type="text"
+                  value={username}
+                  onChange={(e) => setusername(e.target.value)}
+                  // onChange={(e) => setemail(e.target.value)}
                   placeholder="Email"
                   class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                 />
               </div>
-              <div class="flex-1 px-2">
+              {/* <div class="flex-1 px-2">
                 <label class="block mb-2 text-sm text-gray-600 dark:text-gray-200">
                   Password
                 </label>
@@ -139,24 +144,27 @@ const SiginUp = () => {
                   placeholder="PAssword"
                   class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                 />
-              </div>
+              </div> */}
             </div>
 
             <div class="w-full mb-2 mt-4">
               <label class="block mb-2 text-sm text-gray-600 dark:text-gray-200">
-                Bio
+                Message
               </label>
               <textarea
+                value={message}
                 class="block w-full h-32 px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md md:h-56 dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                 onChange={(e) => {
-                  setFile(e.target.files[0]);
-                  console.log(e.target.files[0]);
+                  setmessage(e.target.value);
                 }}
               ></textarea>
             </div>
             <Button onClick={Post}>Post</Button>
 
-            <button class="w-full px-6 py-3 mt-4 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
+            <button
+              onClick={Post}
+              class="w-full px-6 py-3 mt-4 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+            >
               REGISTER
             </button>
           </form>

@@ -7,9 +7,11 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 import Link from "next/link";
+import { GlobalUserContetx } from "../Context/UserContext";
 
 export default function Navbars() {
   const [openNav, setOpenNav] = useState(false);
+  const { NameOfUser, setNameOfUser } = GlobalUserContetx();
 
   useEffect(() => {
     window.addEventListener(
@@ -46,8 +48,8 @@ export default function Navbars() {
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <Link href="/Navbar" className="flex items-center">
-          Nav
+        <Link href="/Contact" className="flex items-center">
+          Contact{}
         </Link>
       </Typography>
       <Typography
@@ -56,8 +58,8 @@ export default function Navbars() {
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <Link href="#" className="flex items-center">
-          Docs
+        <Link href="/Main" className="flex items-center">
+          TODO
         </Link>
       </Typography>
     </ul>
@@ -68,11 +70,11 @@ export default function Navbars() {
       <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
         <Typography
           as="a"
-          href="#"
+          href="/Ans"
           variant="small"
           className="mr-4 cursor-pointer py-1.5 font-normal"
         >
-          <span>Material Tailwind</span>
+          <span>Que&Ans</span>
         </Typography>
         <div className="hidden lg:block">{navList}</div>
         <Button
@@ -80,7 +82,9 @@ export default function Navbars() {
           size="sm"
           className="hidden bg-indigo-800 lg:inline-block"
         >
-          <span>Buy Now</span>
+          <Link href={"/Register"}>
+            <span>Help</span>
+          </Link>
         </Button>
         <IconButton
           variant="text"

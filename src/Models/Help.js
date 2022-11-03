@@ -1,17 +1,17 @@
 import { Schema, mongoose, model, models } from "mongoose";
-const testSchema = new Schema({
-  email: {
+const helpSchema = new Schema({
+  username: {
     type: String,
     required: true,
-    unique: true,
+    // unique: true,
   },
-  password: {
+  message: {
     type: String,
     required: true,
     unique: true,
   },
 });
 
-const Test = models.Test || model("Test", testSchema);
+const Help = models.Help || model("Help", helpSchema);
 
-export default Test;
+export default Help;

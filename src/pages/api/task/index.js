@@ -10,25 +10,29 @@ export default async function addTest(req, res) {
     console.log("CONNECTED TO MONGO");
 
     console.log("CREATING DOCUMENT");
+    // if (Test.find({ email: email })) {
+    //   return "duplicate email";
+    // } else {
     const test = await Test.create({ body, email, password });
     console.log("CREATED DOCUMENT");
 
     res.json({ test });
+    // }
     // res.json({ find });
   } catch (error) {
-    console.log(error);
-    res.json({ error });
+    res.json(error);
+    // res.json({ result });
   }
 }
-export async function GetTest(req, res) {
-  try {
-    await connect();
+// export async function GetTest(req, res) {
+//   try {
+//     await connect();
 
-    const find = await Test.find();
+//     const find = await Test.find();
 
-    res.json({ find });
-  } catch (error) {
-    console.log(error);
-    res.json({ error });
-  }
-}
+//     res.json({ find });
+//   } catch (error) {
+//     console.log(error);
+//     res.json({ error });
+//   }
+// }

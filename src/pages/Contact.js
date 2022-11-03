@@ -1,10 +1,55 @@
 import React, { useState } from "react";
 import { Button } from "@material-tailwind/react";
-
-const Dout = () => {
+import axios from "axios";
+import { GlobalUserContetx } from "../Context/UserContext";
+const Contact = () => {
   const [Ask, setAsk] = useState(true);
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
+  const data = { email, password };
+  const { UserLogin, setUserLogin, NameOfUser, setNameOfUser } =
+    GlobalUserContetx();
+
+  const Post = async (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:3000/api/task", data)
+      .then((e) => {
+        console.log(e);
+        alert("askm" + e.data.test.email);
+        setNameOfUser(e.data.test.email);
+        setemail("");
+        setpassword("");
+      })
+      .catch((e) => {
+        alert(e);
+      });
+  };
+  const Login = async (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:3000/api/task/Login", data)
+      .then((e) => {
+        console.log(e);
+        if (e.data == "Login") {
+          setUserLogin(true);
+          setNameOfUser(e.data);
+        } else {
+          setUserLogin(false);
+        }
+        setemail("");
+        setpassword("");
+      })
+      .catch((e) => {
+        alert(e);
+      });
+  };
+
   return (
     <div>
+      <h1 className="shadow-md text-black font-extrabold border-b-2 border-gray-300 lg:mx-20 lg:my-6 lg:text-3xl text-center p-4">
+        {Ask ? "REGISTER" : "LOGIN"}
+      </h1>
       <section class="bg-white dark:bg-gray-900 shadow-lg">
         {Ask ? (
           <div class="container flex items-center shadow-lg justify-center min-h-screen px-6 mx-auto">
@@ -16,7 +61,7 @@ const Dout = () => {
                     Ask ? "text-black" : "text-gray-500"
                   }  capitalize border-b dark:border-gray-400 dark:text-gray-300`}
                 >
-                  ASK
+                  REGISTER
                 </a>
 
                 <a
@@ -25,11 +70,11 @@ const Dout = () => {
                     Ask ? "text-gray-500" : "text-black"
                   }  capitalize border-b dark:border-gray-400 dark:text-gray-300`}
                 >
-                  AnSwer
+                  LOGIN
                 </a>
               </div>
 
-              <div class="relative flex items-center mt-8">
+              <div class="relative flex items-center lg:mt-8">
                 <span class="absolute">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -50,7 +95,9 @@ const Dout = () => {
                 <input
                   type="text"
                   class="block w-full py-3 text-gray-700 bg-white border rounded-md px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                  placeholder="Topic"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setemail(e.target.value)}
                 />
               </div>
 
@@ -73,22 +120,24 @@ const Dout = () => {
                 </span>
 
                 <input
-                  type="Question?"
+                  type="password"
                   class="block w-full py-3 text-gray-700 bg-white border rounded-md px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                  placeholder="question"
+                  placeholder="password"
+                  value={password}
+                  onChange={(e) => setpassword(e.target.value)}
                 />
               </div>
 
               <div class="mt-6">
-                <button class="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
-                  Send
+                <button
+                  onClick={Post}
+                  class="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+                >
+                  REGISTER
                 </button>
 
                 <div class="mt-6 text-center ">
-                  <a
-                    href="#"
-                    class="text-sm text-blue-500 hover:underline dark:text-blue-400"
-                  >
+                  <a class="text-sm text-blue-500 hover:underline dark:text-blue-400">
                     Already have an account?
                   </a>
                 </div>
@@ -105,7 +154,7 @@ const Dout = () => {
                   }  capitalize border-b dark:border-gray-400 dark:text-gray-300`}
                   onClick={() => setAsk(true)}
                 >
-                  ASK
+                  Register
                 </a>
 
                 <a
@@ -114,7 +163,7 @@ const Dout = () => {
                     Ask ? "text-gray-500" : "text-black"
                   }  capitalize border-b dark:border-gray-400 dark:text-gray-300`}
                 >
-                  AnSwer
+                  Login
                 </a>
               </div>
 
@@ -139,7 +188,9 @@ const Dout = () => {
                 <input
                   type="text"
                   class="block w-full py-3 text-gray-700 bg-white border rounded-md px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                  placeholder="Topic"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setemail(e.target.value)}
                 />
               </div>
 
@@ -162,21 +213,26 @@ const Dout = () => {
                 </span>
 
                 <input
-                  type="text"
+                  type="password"
                   class="block w-full py-3 text-gray-700 bg-white border rounded-md px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                  placeholder="Ans"
+                  placeholder="password"
+                  value={password}
+                  onChange={(e) => setpassword(e.target.value)}
                 />
               </div>
 
               <div class="mt-6">
-                <button class="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
-                  Ans
+                <button
+                  onClick={Login}
+                  class="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-teal-500 rounded-md hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+                >
+                  Login
                 </button>
 
                 <div class="mt-6 text-center ">
                   <a
                     href="#"
-                    class="text-sm text-blue-500 hover:underline dark:text-blue-400"
+                    class="text-sm text-teal-500 hover:underline dark:text-blue-400"
                   >
                     Already have an account?
                   </a>
@@ -190,4 +246,4 @@ const Dout = () => {
   );
 };
 
-export default Dout;
+export default Contact;
